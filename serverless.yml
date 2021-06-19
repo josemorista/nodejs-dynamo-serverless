@@ -1,0 +1,24 @@
+service:
+  name: agromasc-serverless
+
+plugins:
+  - serverless-offline
+  - serverless-webpack
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+
+provider:
+  name: aws
+
+
+functions:
+  healthCheck:
+    handler: src/shared/functions/healthCheck.handler
+    events:
+      - http:
+          path: /health-check
+          method: GET
+          cors: true
