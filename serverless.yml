@@ -29,7 +29,21 @@ functions:
     handler: src/shared/functions/healthCheck.handler
     events:
       - http:
-          path: /health-check
+          path: /healthCheck
+          method: GET
+          cors: true
+  createUser:
+    handler: src/shared/functions/createUser.handler
+    events:
+      - http:
+          path: /users
+          method: POST
+          cors: true
+  getUser:
+    handler: src/shared/functions/getUsers.handler
+    events:
+      - http:
+          path: /users
           method: GET
           cors: true
 
@@ -41,10 +55,15 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
-        TableName: users
+        TableName: agromasc
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
+          - AttributeName: kind
+            AttributeType: S
         KeySchema:
-          - AttributeName: id
+          - AttributeName: kind
             KeyType: HASH
+          - AttributeName: id
+            KeyType: RANGE
+          
