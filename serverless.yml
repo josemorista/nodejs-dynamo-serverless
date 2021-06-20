@@ -23,6 +23,15 @@ provider:
   name: aws
   runtime: nodejs14.x
   region: us-east-1
+  iamRolesStatements:
+    - Effect: Allow
+      Action: 
+        - dynamodb:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "*"
 
 functions:
   healthCheck:
@@ -39,6 +48,12 @@ functions:
           path: /users
           method: POST
           cors: true
+    iamRolesStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+          - dynamodb:PutItem
+        Resource: "arn:aws:dynamodb:${self.provider.region}:*:table/agromasc"
   getUser:
     handler: src/shared/functions/getUsers.handler
     events:
@@ -49,7 +64,7 @@ functions:
 
 resources:
   Resources:
-    dbUsers:
+    dynamoDbAgroMasc:
       Type: AWS::DynamoDB::Table
       Properties:
         ProvisionedThroughput:
