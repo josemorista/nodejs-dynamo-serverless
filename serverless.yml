@@ -5,7 +5,7 @@ plugins:
   - serverless-offline
   - serverless-webpack
   - serverless-dynamodb-local
-  - serverless-offline-sqs
+  #- serverless-offline-sqs
 
 custom:
   webpack:
@@ -19,20 +19,20 @@ custom:
       port: 8000
       inMemory: true
       migrate: true
-  serverless-offline-sqs:
-    autoCreate: true                 # create queue if not exists
-    apiVersion: '2012-11-05'
-    endpoint: http://0.0.0.0:9324
-    region: eu-west-1
-    accessKeyId: root
-    secretAccessKey: root
-    skipCacheInvalidation: false
+  #serverless-offline-sqs:
+   # autoCreate: true                 # create queue if not exists
+    #apiVersion: '2012-11-05'
+    #endpoint: http://0.0.0.0:9324
+    #region: eu-west-1
+    #accessKeyId: root
+    #secretAccessKey: root
+    #skipCacheInvalidation: false
 
 provider:
   name: aws
   runtime: nodejs14.x
   region: us-east-1
-  iamRolesStatements:
+  iamRoleStatements:
     - Effect: Allow
       Action: 
         - dynamodb:*
@@ -61,7 +61,7 @@ functions:
           path: /users
           method: POST
           cors: true
-    iamRolesStatements:
+    iamRoleStatements:
       - Effect: Allow
         Action:
           - dynamodb:Query
@@ -74,10 +74,15 @@ functions:
           path: /users
           method: GET
           cors: true
-  logSqs:
-    handler: src/shared/functions/log.handler
-    events:
-      sqs: arn:aws:sqs:region:us-east-1:MyFirstQueue
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: "arn:aws:dynamodb:${self.provider.region}:*:table/agromasc"
+  #logSqs:
+    #handler: src/shared/functions/log.handler
+   # events:
+    #  sqs: arn:aws:sqs:region:us-east-1:MyFirstQueue
 
 resources:
   Resources:
