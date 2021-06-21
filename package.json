@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Serverless aws-nodejs-typescript template",
   "scripts": {
-    "dev:serverless": "export isOffline=true && serverless offline",
+    "dev:serverless": "export isOffline=true && export NODE_ENV=test && serverless offline",
     "deploy": "serverless deploy -v"
   },
   "engines": {
@@ -12,6 +12,7 @@
   "dependencies": {
     "@middy/core": "^1.5.2",
     "@middy/http-json-body-parser": "^1.5.2",
+    "serverless-offline-sqs": "^4.1.1",
     "source-map-support": "^0.5.19",
     "uuid": "^8.3.2"
   },

@@ -2,10 +2,10 @@ service:
   name: agromasc-serverless
 
 plugins:
+  - serverless-offline-sqs
   - serverless-offline
   - serverless-webpack
   - serverless-dynamodb-local
-  #- serverless-offline-sqs
 
 custom:
   webpack:
@@ -19,14 +19,14 @@ custom:
       port: 8000
       inMemory: true
       migrate: true
-  #serverless-offline-sqs:
-   # autoCreate: true                 # create queue if not exists
-    #apiVersion: '2012-11-05'
-    #endpoint: http://0.0.0.0:9324
-    #region: eu-west-1
-    #accessKeyId: root
-    #secretAccessKey: root
-    #skipCacheInvalidation: false
+  serverless-offline-sqs:
+    autoCreate: false
+    apiVersion: '2012-11-05'
+    endpoint: http://0.0.0.0:9324
+    region: us-east-1
+    accessKeyId: root
+    secretAccessKey: root
+    skipCacheInvalidation: false
 
 provider:
   name: aws
@@ -54,6 +54,13 @@ functions:
           path: /healthCheck
           method: GET
           cors: true
+  putQueue:
+    handler: src/shared/functions/put.handler
+    events:
+      - http:
+          path: /queue
+          method: POST
+          cors: true
   createUser:
     handler: src/shared/functions/createUser.handler
     events:
@@ -79,13 +86,19 @@ functions:
         Action:
           - dynamodb:Query
         Resource: "arn:aws:dynamodb:${self.provider.region}:*:table/agromasc"
-  #logSqs:
-    #handler: src/shared/functions/log.handler
-   # events:
-    #  sqs: arn:aws:sqs:region:us-east-1:MyFirstQueue
+  logSqs:
+    handler: src/shared/functions/log.handler
+    events:
+      - sqs: arn:aws:sqs:region:us-east-1:MyFirstQueue
 
 resources:
   Resources:
+    MyFirstQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: MyFirstQueue
+        VisibilityTimeout: 30
+        MessageRetentionPeriod: 1209600
     dynamoDbAgroMasc:
       Type: AWS::DynamoDB::Table
       Properties:
