@@ -54,6 +54,9 @@ functions:
           path: /healthCheck
           method: GET
           cors: true
+      - schedule:
+          rate: rate(1 minutes)
+          enabled: true
   putQueue:
     handler: src/shared/functions/put.handler
     events:
