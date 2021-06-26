@@ -22,7 +22,7 @@ Depending on your preferred package manager, follow the instructions below to de
 
 ## Run offline
 
-### Dynamodb setup:
+### Dynamodb setup
 
 Requires open-jdk.
 
@@ -37,7 +37,7 @@ npx serverless dynamodb install
 npx serverless dynamodb start
 ```
 
-### SQS setup:
+### SQS setup
 
 Requires an ElasticMQ queue running on your machine. In this project we used the public image from Dockerhub:
 
