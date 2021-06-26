@@ -1,4 +1,4 @@
-# Serverless - AWS POC - Node.js Typescript
+# Serverless - AWS nodejs-dynamo-serverless - Node.js Typescript
 
 This project has been generated using the `aws-nodejs-typescript` template from the [Serverless framework](https://www.serverless.com/).
 
