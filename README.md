@@ -39,7 +39,7 @@ npx serverless dynamodb start
 
 ### SQS setup:
 
-Requires an ElasticMQ queue running on your machine. In this project we used the public elasticMQ image from dockerhub:
+Requires an ElasticMQ queue running on your machine. In this project we used the public image from Dockerhub:
 
 <a href="https://hub.docker.com/r/softwaremill/elasticmq">ElasticMQ instructions.</a>
 
